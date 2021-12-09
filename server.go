@@ -126,7 +126,7 @@ func handlePostMsg(content, sender string) {
 		getHelpMarkdown := " \n #### **ℹ️帮助信息(请包含以下关键字):** \n\n - **ip: 获取当前网络的IPv4公网地址;** \n - **help: 获取帮助信息;** \n - **about: 关于该机器人**"
 		SendMarkdownMesg(sender, getHelpMarkdown)
 	} else if strings.Contains(content, "about") {
-		SendActionCardMesg("### 🤖关于该机器人\n ![logo](https://agou-images.oss-cn-qingdao.aliyuncs.com/others/robot128_128.png) \n\n Robot version: 0.1 \n\n Backend: go1.17.2 darwin/arm64 \n\n > 更新日志:\n > 1. 初始化,实现基础功能,获取公网IPv4;", "Read More...", "https://xbongbong.com")
+		SendActionCardMesg("### 🤖关于该机器人\n ![logo](https://agou-images.oss-cn-qingdao.aliyuncs.com/others/robot128_128.png) \n\n Robot version: 0.1 \n\n Backend: go1.17.2 darwin/arm64 \n\n > 更新日志:\n > 1. 初始化,实现基础功能,获取公网IPv4;", "Read More...", "https://agou-ops.cn/post/%E9%92%89%E9%92%89%E7%BE%A4%E8%81%8A%E6%9C%BA%E5%99%A8%E4%BA%BAsample/")
 	} else {
 		noKeyMarkdown := " ⚠️*抱歉,您的指令有误!* \n\n #### **帮助信息(请包含以下关键字):** \n - **ip: 获取当前网络的IPv4公网地址;** \n - **help: 获取帮助信息;** \n - **about: 关于该机器人**"
 		SendMarkdownMesg(sender, noKeyMarkdown)
