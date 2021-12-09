@@ -1,0 +1,27 @@
+{
+  "conversationId": "cidvqzuf3//Y2USxdH7vuv0bw==",
+  "atUsers": [
+    {
+      "dingtalkId": "$:LWCP_v1:$NwRjTKo5IoHBk5zFCK4MnMW55EBGGP6+"
+    }
+  ],
+  "chatbotCorpId": "ding5c521da3cccf0d15a39a90f97fcb1e09",
+  "chatbotUserId": "$:LWCP_v1:$NwRjTKo5IoHBk5zFCK4MnMW55EBGGP6+",
+  "msgId": "msgUHo3BqVdm7dWaO0ZrbKl9Q==",
+  "senderNick": "代明勇",
+  "isAdmin": true,
+  "senderStaffId": "manager1266",
+  "sessionWebhookExpiredTime": 1638864735031,
+  "createAt": 1638859334873,
+  "senderCorpId": "ding5c521da3cccf0d15a39a90f97fcb1e09",
+  "conversationType": "2",
+  "senderId": "$:LWCP_v1:$Cs1PcciGyn7cUKJDXKftNg==",
+  "conversationTitle": "AGouTEST测试",
+  "isInAtList": true,
+  "sessionWebhook": "https://oapi.dingtalk.com/robot/sendBySession?session=20e3f4c2e8faa446e8a3d91c080075d7",
+  "text": {
+    "content": " fds"
+  },
+  "robotCode": "dingh7xk1knk4echm3ir",
+  "msgtype": "text"
+}
