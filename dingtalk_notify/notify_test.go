@@ -6,8 +6,6 @@ import (
 )
 
 func TestRobot_SendMessage(t *testing.T) {
-	//t.SkipNow()
-
 	msg := map[string]interface{}{
 		"msgtype": "text",
 		"text": map[string]string{

@@ -16,7 +16,7 @@ import (
 const (
 	dateFormat  = "2006-01-02 15:04:05"
 	getIPAPI    = "https://ipv4.ipw.cn/api/ip/myip"
-	accessToken = "37849051cc270053f33a0d683bff85d58712e38790dfe1ddfcf86a17ad9df895"
+	accessToken = "Your token here."
 )
 
 // Sender	  发送消息者
@@ -43,8 +43,9 @@ type ReqBody struct {
 func HTTPServer() {
 	http.HandleFunc("/", handleGetPost)
 
-	log.Printf("Starting server for testing HTTP POST...\n")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	log.Printf("Starting server for DingTalk robot HTTP POST...\n")
+	log.Println("Server Host on: [::]:5432")
+	if err := http.ListenAndServe(":5432", nil); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -83,6 +84,7 @@ func handleGetPost(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		// log.Fprintf(w,r.Header.Get("timestamp"))
 		file, err := os.OpenFile("/var/log/dingtalk_robot.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+		// file, err := os.OpenFile("/home/dmy/dingtalk_robot.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(-1)
@@ -120,15 +122,15 @@ func handlePostMsg(content, sender string) {
 
 	if strings.Contains(content, "ip") {
 		// --- 此处使用markdown格式传递
-		getIPMarkdown := " \n #### 🌏您的IPv4公网地址是: \n\n ### " + strings.Repeat("&nbsp;", 25) + GetCurrentIPv4()
+		getIPMarkdown := " \n #### 🌏您的IPv4公网地址是: \n\n ### " + strings.Repeat("&nbsp;", 15) + GetCurrentIPv4()
 		SendMarkdownMesg(Sender, getIPMarkdown)
 	} else if strings.Contains(content, "help") {
-		getHelpMarkdown := " \n #### **ℹ️帮助信息(请包含以下关键字):** \n\n - **ip: 获取当前网络的IPv4公网地址;** \n - **help: 获取帮助信息;** \n - **about: 关于该机器人**"
+		getHelpMarkdown := " \n #### **ℹ️帮助信息(请包含以下关键字):** \n\n - **ip: 获取当前网络的IPv4公网地址;** \n - **help: 获取帮助信息;** \n - **about: 关于该机器人;** \n\n " + GetCurrentIPv4()
 		SendMarkdownMesg(sender, getHelpMarkdown)
 	} else if strings.Contains(content, "about") {
-		SendActionCardMesg("### 🤖关于该机器人\n ![logo](https://agou-images.oss-cn-qingdao.aliyuncs.com/others/robot128_128.png) \n\n Robot version: 0.1 \n\n Backend: go1.17.2 darwin/arm64 \n\n > 更新日志:\n > 1. 初始化,实现基础功能,获取公网IPv4;", "Read More...", "https://agou-ops.cn/post/%E9%92%89%E9%92%89%E7%BE%A4%E8%81%8A%E6%9C%BA%E5%99%A8%E4%BA%BAsample/")
+		SendActionCardMesg("### 🤖关于该机器人\n ![logo](https://agou-images.oss-cn-qingdao.aliyuncs.com/others/robot128_128.png) \n\n Robot version: 0.1 \n\n Backend: go1.17.2 darwin/arm64 \n\n [Source Code](https://github.com/AGou-ops/dingtalk_robot_sample) \n\n > 更新日志:\n > 1. 初始化,实现基础功能,获取公网IPv4;", "Read More...", "https://agou-ops.cn/post/%E9%92%89%E9%92%89%E7%BE%A4%E8%81%8A%E6%9C%BA%E5%99%A8%E4%BA%BAsample/")
 	} else {
-		noKeyMarkdown := " ⚠️*抱歉,您的指令有误!* \n\n #### **帮助信息(请包含以下关键字):** \n - **ip: 获取当前网络的IPv4公网地址;** \n - **help: 获取帮助信息;** \n - **about: 关于该机器人**"
+		noKeyMarkdown := " ⚠️*抱歉,您的指令有误!* \n\n #### **帮助信息(请包含以下关键字):** \n - **ip: 获取当前网络的IPv4公网地址;** \n - **help: 获取帮助信息;** \n - **about: 关于该机器人;** \n\n" + GetCurrentIPv4()
 		SendMarkdownMesg(sender, noKeyMarkdown)
 	}
 
