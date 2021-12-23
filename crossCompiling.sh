@@ -12,6 +12,7 @@ binaryBaseName="DingTalk_robot"
 version="v0.11"
 dist_archs=(386 amd64 arm arm64 mips mips64 mips64le mipsle ppc64 ppc64le riscv64 s390x)
 
+rm -rf ../output_binary
 mkdir ../output_binary
 
 for arch in ${dist_archs[@]}

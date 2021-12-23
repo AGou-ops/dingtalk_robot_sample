@@ -16,7 +16,8 @@ import (
 const (
 	dateFormat  = "2006-01-02 15:04:05"
 	getIPAPI    = "https://ipv4.ipw.cn/api/ip/myip"
-	accessToken = "Your token here."
+	accessToken = "456e2108405af31f4154d884c978641883f50fb5fe295c285e091c3f95ac1bae"
+	version     = "0.12"
 )
 
 // Sender	  发送消息者
@@ -122,15 +123,18 @@ func handlePostMsg(content, sender string) {
 
 	if strings.Contains(content, "ip") {
 		// --- 此处使用markdown格式传递
-		getIPMarkdown := " \n #### 🌏您的IPv4公网地址是: \n\n ### " + strings.Repeat("&nbsp;", 15) + GetCurrentIPv4()
+		getIPMarkdown := " \n #### 🌏您好,今日公网IPv4地址是: \n\n ### " + strings.Repeat("&nbsp;", 15) + GetCurrentIPv4()
 		SendMarkdownMesg(Sender, getIPMarkdown)
 	} else if strings.Contains(content, "help") {
-		getHelpMarkdown := " \n #### **ℹ️帮助信息(请包含以下关键字):** \n\n - **ip: 获取当前网络的IPv4公网地址;** \n - **help: 获取帮助信息;** \n - **about: 关于该机器人;** \n\n " + GetCurrentIPv4()
+		getHelpMarkdown := " \n #### **ℹ️帮助信息(请包含以下关键字):** \n\n - **ip: 获取公司的IPv4公网地址;** \n - **测试: 获取当前测试环境占用情况链接;** \n - **help: 获取帮助信息;** \n - **about: 关于该机器人;** \n\n " + GetCurrentIPv4()
 		SendMarkdownMesg(sender, getHelpMarkdown)
 	} else if strings.Contains(content, "about") {
-		SendActionCardMesg("### 🤖关于该机器人\n ![logo](https://agou-images.oss-cn-qingdao.aliyuncs.com/others/robot128_128.png) \n\n Robot version: 0.1 \n\n Backend: go1.17.2 darwin/arm64 \n\n [Source Code](https://github.com/AGou-ops/dingtalk_robot_sample) \n\n > 更新日志:\n > 1. 初始化,实现基础功能,获取公网IPv4;", "Read More...", "https://agou-ops.cn/post/%E9%92%89%E9%92%89%E7%BE%A4%E8%81%8A%E6%9C%BA%E5%99%A8%E4%BA%BAsample/")
+		SendActionCardMesg("### 🤖关于该机器人\n ![logo](https://agou-images.oss-cn-qingdao.aliyuncs.com/others/robot128_128.png) \n\n Robot version:"+version+" \n\n Backend: go1.17.2 darwin/arm64 \n\n  [Source Code](https://github.com/AGou-ops/dingtalk_robot_sample) \n\n  > 更新日志:\n > 1. 初始化,实现基础功能,获取公网IPv4;", "Read More...", "https://alidocs.dingtalk.com/i/team/O5pXB64OMkEoX7Zv/docs/O5pXBZxL6ZEAoX7Z")
+	} else if strings.Contains(content, "测试") {
+		getTestEnvLink := " \n [🔗测试环境占用情况](http://192.168.10.203:8088/#/environment/environment)"
+		SendMarkdownMesg(sender, getTestEnvLink)
 	} else {
-		noKeyMarkdown := " ⚠️*抱歉,您的指令有误!* \n\n #### **帮助信息(请包含以下关键字):** \n - **ip: 获取当前网络的IPv4公网地址;** \n - **help: 获取帮助信息;** \n - **about: 关于该机器人;** \n\n" + GetCurrentIPv4()
+		noKeyMarkdown := " ⚠️*抱歉,您的指令有误!* \n\n #### **帮助信息(请包含以下关键字):** \n - **ip: 获取公司的IPv4公网地址;** \n - **测试: 获取当前测试环境占用情况链接;** \n - **help: 获取帮助信息;** \n - **about: 关于该机器人;** \n\n" + GetCurrentIPv4()
 		SendMarkdownMesg(sender, noKeyMarkdown)
 	}
 
@@ -206,16 +210,22 @@ func SendActionCardMesg(text, singleTitle, singleURL string) {
 // @return string
 //
 func GetCurrentIPv4() string {
-	responseClient, errClient := http.Get(getIPAPI)
+	// responseClient, errClient := http.Get(getIPAPI)
 
-	if errClient != nil {
-		log.Printf("Failed to get current public IP address!\n")
-		panic(errClient)
+	// if errClient != nil {
+	// 	log.Printf("Failed to get current public IP address!\n")
+	// 	panic(errClient)
+	// }
+	// defer responseClient.Body.Close()
+
+	// // 获取 http response 的 body
+	// body, _ := ioutil.ReadAll(responseClient.Body)
+	// clientIP := string(body)
+	// return clientIP
+
+	getIPFromFile, err := ioutil.ReadFile("./currentIPv4.txt")
+	if err != nil {
+		log.Fatal(err)
 	}
-	defer responseClient.Body.Close()
-
-	// 获取 http response 的 body
-	body, _ := ioutil.ReadAll(responseClient.Body)
-	clientIP := string(body)
-	return clientIP
+	return string(getIPFromFile)
 }
